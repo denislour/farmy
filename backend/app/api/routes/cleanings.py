@@ -41,5 +41,4 @@ async def create_new_cleaning(
     cleanings_repo: CleaningsRepository = Depends(get_repository(CleaningsRepository)),
 ) -> CleaningOut:
     created_cleaning = await cleanings_repo.create_cleaning(new_cleaning=new_cleaning)
-    print(created_cleaning)
     return created_cleaning

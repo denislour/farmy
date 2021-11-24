@@ -12,5 +12,4 @@ class CleaningsRepository(BaseRepository):
         cleaning_inserted = await self.engine["cleanings"].find_one(
             {"_id": cleaning.inserted_id}
         )
-        print(cleaning_inserted)
         return CleaningIn(**cleaning_inserted)
