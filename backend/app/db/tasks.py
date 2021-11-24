@@ -9,10 +9,11 @@ settings = get_settings()
 
 
 async def connect_to_db(app: FastAPI) -> None:
-    engine = AsyncIOMotorClient(settings.DB_URL)
-
     try:
-        app.state._db = engine[settings.DB_NAME]
+        app.state._db_client = AsyncIOMotorClient(
+            settings.DB_URL, tls=True, tlsAllowInvalidCertificates=True
+        )
+        app.state._db = app.state._db_client[settings.DB_NAME]
     except Exception as e:
         logger.warn("--- DB CONNECTION ERROR ---")
         logger.warn(e)
@@ -21,7 +22,7 @@ async def connect_to_db(app: FastAPI) -> None:
 
 async def close_db_connection(app: FastAPI) -> None:
     try:
-        await app.state._db.close()
+        app.state._db_client.close()
     except Exception as e:
         logger.warn("--- DB DISCONNECT ERROR ---")
         logger.warn(e)
