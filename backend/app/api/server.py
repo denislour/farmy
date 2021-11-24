@@ -1,10 +1,15 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from starlette.middleware.cors import CORSMiddleware
+
+from app.core import config, tasks
+from app.core.config import get_settings, Settings
 from app.api.routes import router as api_router
+
+settings = get_settings()
 
 
 def get_application():
-    app = FastAPI(title="Farmy", version="1.0.0")
+    app = FastAPI(title=settings.project_name, version=settings.version)
 
     app.add_middleware(
         CORSMiddleware,
@@ -14,7 +19,9 @@ def get_application():
         allow_headers=["*"],
     )
 
-    app.include_router(api_router, prefix="/api")
+    app.add_event_handler("startup", tasks.create_start_app_handler(app))
+    app.add_event_handler("shutdown", tasks.create_stop_app_handler(app))
+    app.include_router(api_router, prefix=settings.api_prefix)
 
     return app
 

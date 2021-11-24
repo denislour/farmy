@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
-    "Farmy"
+    "Farmy",
+    "pydantic"
   ],
   "python.formatting.provider": "black"
 }
