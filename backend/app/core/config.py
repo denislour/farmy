@@ -9,9 +9,12 @@ class Settings(BaseSettings):
     api_prefix: str = "/api"
     secret_key: str = ""
 
-    # DB
-    DB_URL: str
-    DB_NAME: str
+    # Db
+    db_url: str
+    db_name: str
+
+    # Test
+    testing: bool = False
 
     class Config:
         env_file = ".env"
@@ -21,3 +24,6 @@ class Settings(BaseSettings):
 @lru_cache()
 def get_settings():
     return Settings()
+
+
+settings = get_settings()

@@ -13,8 +13,8 @@ def get_database(request: Request) -> AsyncIOMotorDatabase:
 
 def get_repository(Repo_type: Type[BaseRepository]) -> Callable:
     def get_repo(
-        engine: AsyncIOMotorDatabase = Depends(get_database),
+        db: AsyncIOMotorDatabase = Depends(get_database),
     ) -> Type[BaseRepository]:
-        return Repo_type(engine)
+        return Repo_type(db)
 
     return get_repo

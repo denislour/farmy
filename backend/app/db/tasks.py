@@ -1,19 +1,23 @@
 from fastapi import FastAPI, Depends
 from motor.motor_asyncio import AsyncIOMotorClient
-from app.core.config import get_settings
+from app.core.config import settings
 import logging
 
 
 logger = logging.getLogger(__name__)
-settings = get_settings()
 
 
 async def connect_to_db(app: FastAPI) -> None:
+    settings.db_name = (
+        f"{settings.db_name}_test"
+        if settings.testing and not settings.db_name.endswith("_test")
+        else settings.db_name
+    )
     try:
         app.state._db_client = AsyncIOMotorClient(
-            settings.DB_URL, tls=True, tlsAllowInvalidCertificates=True
+            settings.db_url, tls=True, tlsAllowInvalidCertificates=True
         )
-        app.state._db = app.state._db_client[settings.DB_NAME]
+        app.state._db = app.state._db_client[settings.db_name]
     except Exception as e:
         logger.warn("--- DB CONNECTION ERROR ---")
         logger.warn(e)

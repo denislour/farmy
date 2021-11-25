@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Farmy Test",
+            "type": "python",
+            "cwd": "${workspaceFolder}/backend",
+            "request": "launch",
+            "module": "pytest",
+            "args": ["-v"]
+        },
+        {
+            "name": "Farmy",
+            "type": "python",
+            "cwd": "${workspaceFolder}/backend",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": ["app.api.server:app","--reload", "--lifespan", "on"]
+        }
+    ]
+}

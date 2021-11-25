@@ -9,3 +9,12 @@ motor==2.5.1
 
 # settings
 python-dotenv==0.19.2
+
+# test
+pytest==6.2.5
+pytest-asyncio==0.16.0
+httpx==0.16.1
+asgi-lifespan==1.0.1
+
+# styling
+black==21.11b1

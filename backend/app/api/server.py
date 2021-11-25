@@ -1,11 +1,9 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from app.core import config, tasks
-from app.core.config import get_settings, Settings
+from app.core import tasks
+from app.core.config import settings
 from app.api.routes import router as api_router
-
-settings = get_settings()
 
 
 def get_application():

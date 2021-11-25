@@ -1,4 +1,3 @@
-import uuid
 from bson import ObjectId
 from pydantic import BaseModel, Field
 

@@ -1,12 +1,14 @@
 from typing import List
 
 from fastapi import APIRouter
-from fastapi import APIRouter, Body, Depends
-from starlette.status import HTTP_201_CREATED
+from fastapi import APIRouter, Body, Depends, HTTPException
+from starlette.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
 
 from app.models.cleaning import CleaningCreate, CleaningOut
+from app.models.base import PyObjectId
 from app.db.repositories.cleanings import CleaningsRepository
 from app.api.dependencies.db import get_repository
+from app.models.cleaning import CleaningIn
 
 router = APIRouter()
 
@@ -42,3 +44,16 @@ async def create_new_cleaning(
 ) -> CleaningOut:
     created_cleaning = await cleanings_repo.create_cleaning(new_cleaning=new_cleaning)
     return created_cleaning
+
+
+@router.get("/{id}/", response_model=CleaningOut, name="cleanings:get-cleaning-by-id")
+async def get_cleaning_by_id(
+    id: PyObjectId,
+    cleaning_repo: CleaningsRepository = Depends(get_repository(CleaningsRepository)),
+) -> CleaningOut:
+    cleaning = await cleaning_repo.get_cleaning_by_id(id=id)
+    if not cleaning:
+        raise HTTPException(
+            status_code=HTTP_404_NOT_FOUND, detail="No cleaning found with that id."
+        )
+    return cleaning
