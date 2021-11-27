@@ -15,6 +15,7 @@ from app.models.cleaning import CleaningIn
 
 async def teardown(db: AsyncIOMotorDatabase) -> None:
     db.cleanings.delete_many({})
+    db.users.delete_many({})
 
 
 @pytest.fixture
