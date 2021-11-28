@@ -3,34 +3,36 @@ from typing import List
 from fastapi import APIRouter, Body, Depends, HTTPException, Path
 from starlette.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
 
-from app.models.cleaning import CleaningCreate, CleaningOut
+from app.models.cleaning import CleaningCreate, CleaningPublic
 from app.models.base import PyObjectId
 from app.db.repositories.cleanings import CleaningsRepository
 from app.api.dependencies.db import get_repository
-from app.models.cleaning import CleaningOut, CleaningUpdate
+from app.models.cleaning import CleaningPublic, CleaningUpdate
 
 router = APIRouter()
 
 
 @router.post(
     "/",
-    response_model=CleaningOut,
+    response_model=CleaningPublic,
     name="cleanings:create-cleaning",
     status_code=HTTP_201_CREATED,
 )
 async def create_new_cleaning(
-    new_cleaning: CleaningCreate = Body(..., embed=True),
+    new_cleaning: CleaningCreate,
     cleanings_repo: CleaningsRepository = Depends(get_repository(CleaningsRepository)),
-) -> CleaningOut:
+) -> CleaningPublic:
     created_cleaning = await cleanings_repo.create_cleaning(new_cleaning=new_cleaning)
     return created_cleaning
 
 
-@router.get("/{id}/", response_model=CleaningOut, name="cleanings:get-cleaning-by-id")
+@router.get(
+    "/{id}/", response_model=CleaningPublic, name="cleanings:get-cleaning-by-id"
+)
 async def get_cleaning_by_id(
     id: PyObjectId,
     cleaning_repo: CleaningsRepository = Depends(get_repository(CleaningsRepository)),
-) -> CleaningOut:
+) -> CleaningPublic:
     cleaning = await cleaning_repo.get_cleaning_by_id(id=id)
     if not cleaning:
         raise HTTPException(
@@ -39,21 +41,23 @@ async def get_cleaning_by_id(
     return cleaning
 
 
-@router.get("/", response_model=List[CleaningOut], name="cleanings:get-all-cleanings")
+@router.get(
+    "/", response_model=List[CleaningPublic], name="cleanings:get-all-cleanings"
+)
 async def get_all_cleanings(
     cleaning_repo: CleaningsRepository = Depends(get_repository(CleaningsRepository)),
-) -> List[CleaningOut]:
+) -> List[CleaningPublic]:
     return await cleaning_repo.get_all_cleanings()
 
 
 @router.put(
-    "/{id}/", response_model=CleaningOut, name="cleanings:update-cleaning-by-id"
+    "/{id}/", response_model=CleaningPublic, name="cleanings:update-cleaning-by-id"
 )
 async def update_cleaning_by_id(
     id: PyObjectId,
     cleaning_update: CleaningUpdate,
     cleanings_repo: CleaningsRepository = Depends(get_repository(CleaningsRepository)),
-) -> CleaningOut:
+) -> CleaningPublic:
     updated_cleaning = await cleanings_repo.update_cleaning(
         id=id,
         cleaning_update=cleaning_update,

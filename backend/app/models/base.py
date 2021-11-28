@@ -30,12 +30,8 @@ class Base(BaseModel):
 
 
 class DateTimeModelMixin(BaseModel):
-    created_at: Optional[datetime]
-    updated_at: Optional[datetime]
-
-    @validator("created_at", "updated_at", pre=True)
-    def default_datetime(cls, value: datetime) -> datetime:
-        return value or datetime.now()
+    created_at: Optional[datetime] = datetime.now()
+    updated_at: Optional[datetime] = datetime.now()
 
 
 class IDModelMixin(BaseModel):

@@ -1,12 +1,18 @@
 {
   "cSpell.words": [
     "asgi",
+    "bcrypt",
     "Bson",
+    "Creds",
     "Farmy",
     "httpx",
     "pydantic",
     "pytest",
     "uvicorn"
   ],
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "workbench.colorCustomizations": {
+    "editorUnnecessaryCode.border": "#dd7aab",
+    "editorUnnecessaryCode.opacity": "#dd7aab",
+  },
 }

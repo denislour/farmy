@@ -20,6 +20,12 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
 
+    # Auth
+    access_token_expire_minutes: int = 7 * 24 * 60  # one week
+    jwt_algorithm: str = "HS256"
+    jwt_audience: str = "farmy:auth"
+    jwt_token_prefix: str = "Bearer"
+
 
 @lru_cache()
 def get_settings():

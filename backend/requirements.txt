@@ -18,3 +18,7 @@ asgi-lifespan==1.0.1
 
 # styling
 black==21.11b1
+
+# auth
+pyjwt==2.0.1
+passlib[bcrypt]==1.7.2

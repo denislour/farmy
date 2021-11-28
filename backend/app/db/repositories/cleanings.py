@@ -3,7 +3,7 @@ from pymongo import ReturnDocument
 from pydantic.types import T
 
 from app.db.repositories.base import BaseRepository
-from app.models.cleaning import CleaningCreate, CleaningIn, CleaningUpdate
+from app.models.cleaning import CleaningCreate, CleaningDB, CleaningUpdate
 from app.models.base import PyObjectId
 
 
@@ -12,26 +12,26 @@ class CleaningsRepository(BaseRepository):
     All database actions associated with the Cleaning resource
     """
 
-    async def create_cleaning(self, *, new_cleaning: CleaningCreate) -> CleaningIn:
+    async def create_cleaning(self, *, new_cleaning: CleaningCreate) -> CleaningDB:
         cleaning = await self.db.cleanings.insert_one(new_cleaning.dict())
         cleaning_inserted = await self.db.cleanings.find_one(
             {"_id": cleaning.inserted_id}
         )
-        return CleaningIn(**cleaning_inserted)
+        return CleaningDB(**cleaning_inserted)
 
-    async def get_cleaning_by_id(self, *, id: PyObjectId) -> CleaningIn:
+    async def get_cleaning_by_id(self, *, id: PyObjectId) -> CleaningDB:
         cleaning = await self.db.cleanings.find_one({"_id": id})
         if not cleaning:
             return None
-        return CleaningIn(**cleaning)
+        return CleaningDB(**cleaning)
 
-    async def get_all_cleanings(self) -> List[CleaningIn]:
+    async def get_all_cleanings(self) -> List[CleaningDB]:
         cleanings = await self.db.cleanings.find().to_list(length=100)
-        return [CleaningIn(**l) for l in cleanings]
+        return [CleaningDB(**l) for l in cleanings]
 
     async def update_cleaning(
         self, *, id: PyObjectId, cleaning_update: CleaningUpdate
-    ) -> CleaningIn:
+    ) -> CleaningDB:
         cleaning = await self.get_cleaning_by_id(id=id)
         if not cleaning:
             return None
@@ -43,7 +43,7 @@ class CleaningsRepository(BaseRepository):
             },
             return_document=ReturnDocument.AFTER,
         )
-        return CleaningIn(**update_cleaning)
+        return CleaningDB(**update_cleaning)
 
     async def delete_cleaning_by_id(self, *, id) -> int:
         deleted = await self.db.cleanings.find_one_and_delete({"_id": id})

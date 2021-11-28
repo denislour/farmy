@@ -9,7 +9,7 @@ from starlette.status import (
     HTTP_422_UNPROCESSABLE_ENTITY,
 )
 from app.models.cleaning import CleaningCreate
-from app.models.cleaning import CleaningIn
+from app.models.cleaning import CleaningDB
 
 pytestmark = pytest.mark.asyncio
 
@@ -34,7 +34,7 @@ class TestCreateCleaning:
     ) -> None:
         res = await client.post(
             app.url_path_for("cleanings:create-cleaning"),
-            json={"new_cleaning": new_cleaning.dict()},
+            json=new_cleaning.dict(),
         )
         assert res.status_code == HTTP_201_CREATED
         assert CleaningCreate(**res.json()) == new_cleaning
@@ -54,7 +54,7 @@ class TestCreateCleaning:
     ) -> None:
         res = await client.post(
             app.url_path_for("cleanings:create-cleaning"),
-            json={"invalid_payload": invalid_payload},
+            json=invalid_payload,
         )
         assert res.status_code == status_code
 
@@ -81,7 +81,7 @@ class TestUpdateCleaning:
         self,
         app: FastAPI,
         client: AsyncClient,
-        test_cleaning: CleaningIn,
+        test_cleaning: CleaningDB,
         attrs_to_change: List[str],
         values: List[str],
     ) -> None:
@@ -94,7 +94,7 @@ class TestUpdateCleaning:
             json=cleaning_update,
         )
         assert res.status_code == HTTP_200_OK
-        updated_cleaning = CleaningIn(**res.json())
+        updated_cleaning = CleaningDB(**res.json())
         assert updated_cleaning.id == test_cleaning.id
 
         # make sure it's the same cleaning
@@ -115,7 +115,7 @@ class TestDeleteCleaning:
         self,
         app: FastAPI,
         client: AsyncClient,
-        test_cleaning: CleaningIn,
+        test_cleaning: CleaningDB,
     ) -> None:
 
         # delete the cleaning
@@ -149,7 +149,7 @@ class TestDeleteCleaning:
         self,
         app: FastAPI,
         client: AsyncClient,
-        test_cleaning: CleaningIn,
+        test_cleaning: CleaningDB,
         id: int,
         status_code: int,
     ) -> None:
@@ -161,23 +161,23 @@ class TestDeleteCleaning:
 
 class TestGetCleaning:
     async def test_get_cleaning_by_id(
-        self, app: FastAPI, client: AsyncClient, test_cleaning: CleaningIn
+        self, app: FastAPI, client: AsyncClient, test_cleaning: CleaningDB
     ) -> None:
         res = await client.get(
             app.url_path_for("cleanings:get-cleaning-by-id", id=test_cleaning.id)
         )
         assert res.status_code == HTTP_200_OK
-        cleaning = CleaningIn(**res.json())
+        cleaning = CleaningDB(**res.json())
         assert cleaning.id == test_cleaning.id
 
     async def test_get_all_cleanings_returns_valid_response(
-        self, app: FastAPI, client: AsyncClient, test_cleaning: CleaningIn
+        self, app: FastAPI, client: AsyncClient, test_cleaning: CleaningDB
     ) -> None:
         res = await client.get(app.url_path_for("cleanings:get-all-cleanings"))
         assert res.status_code == HTTP_200_OK
         assert isinstance(res.json(), list)
         assert len(res.json()) > 0
-        cleanings = [CleaningIn(**l) for l in res.json()]
+        cleanings = [CleaningDB(**l) for l in res.json()]
         assert test_cleaning in cleanings
 
     @pytest.mark.parametrize(

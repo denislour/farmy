@@ -2,6 +2,7 @@ import string
 from typing import Optional
 from pydantic import constr, EmailStr, validator
 from app.models.base import DateTimeModelMixin, IDModelMixin, Base
+from app.models.token import AccessToken
 
 
 class UserBase(Base):
@@ -50,12 +51,8 @@ class UserDB(IDModelMixin, DateTimeModelMixin, UserBase):
     """
 
     password: constr(min_length=7, max_length=100)
-    salt: Optional[str]
-
-    @validator("salt", pre=True)
-    def default_salt(cls, value: str) -> str:
-        return value or "password salt"
+    salt: Optional[str] = "password salt"
 
 
 class UserPublic(IDModelMixin, DateTimeModelMixin, UserBase):
-    pass
+    access_token: Optional[AccessToken]

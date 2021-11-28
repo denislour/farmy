@@ -10,7 +10,7 @@ from httpx import AsyncClient
 from app.core.config import settings
 from app.db.repositories.cleanings import CleaningsRepository
 from app.models.cleaning import CleaningCreate
-from app.models.cleaning import CleaningIn
+from app.models.cleaning import CleaningDB
 
 
 async def teardown(db: AsyncIOMotorDatabase) -> None:
@@ -45,7 +45,7 @@ async def client(app: FastAPI) -> AsyncClient:
 
 
 @pytest.fixture
-async def test_cleaning(db: AsyncIOMotorDatabase) -> CleaningIn:
+async def test_cleaning(db: AsyncIOMotorDatabase) -> CleaningDB:
     cleaning_repo = CleaningsRepository(db)
     new_cleaning = CleaningCreate(
         name="fake cleaning name",
@@ -57,7 +57,7 @@ async def test_cleaning(db: AsyncIOMotorDatabase) -> CleaningIn:
 
 
 @pytest.fixture
-async def new_cleaning() -> CleaningIn:
+async def new_cleaning() -> CleaningDB:
     return CleaningCreate(
         name="test cleaning",
         description="description",

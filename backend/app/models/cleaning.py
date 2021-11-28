@@ -37,7 +37,7 @@ class CleaningUpdate(CleaningBase):
     cleaning_type: Optional[CleaningType]
 
 
-class CleaningIn(IDModelMixin, CleaningBase):
+class CleaningDB(IDModelMixin, CleaningBase):
     """
     Attributes present on any resource coming out of the database
     """
@@ -47,7 +47,7 @@ class CleaningIn(IDModelMixin, CleaningBase):
     cleaning_type: CleaningType
 
 
-class CleaningOut(IDModelMixin, CleaningBase):
+class CleaningPublic(IDModelMixin, CleaningBase):
     """
     Attributes present on public facing resources being returned from GET, POST, and PUT requests
     """
