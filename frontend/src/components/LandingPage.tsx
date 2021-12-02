@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   EuiPage,
   EuiPageBody,
@@ -8,7 +7,14 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
 } from "@elastic/eui";
-import heroGirl from "../assets/img/heroGirl.svg";
+import { Carousel } from "../components";
+import heroGirl from "../assets/img/HeroGirl.svg";
+import bedroom from "../assets/img/Bedroom.svg";
+import bathroom from "../assets/img/Bathroom.svg";
+import livingRoom from "../assets/img/LivingRoom.svg";
+import kitchen from "../assets/img/Kitchen.svg";
+import readingRoom from "../assets/img/ReadingRoom.svg";
+import tvRoom from "../assets/img/TvRoom.svg";
 import styled from "styled-components";
 
 const StyledEuiPage = styled(EuiPage)`
@@ -21,18 +27,35 @@ const StyledEuiPageContent = styled(EuiPageContent)`
 const StyledEuiPageContentBody = styled(EuiPageContentBody)`
   max-width: 400px;
   max-height: 400px;
+
   & > img {
     width: 100%;
     border-radius: 50%;
   }
 `;
 
+const carouselItems = [
+  { label: "bedroom", content: <img src={bedroom} alt='bedroom' /> },
+  { label: "bathroom", content: <img src={bathroom} alt='bathroom' /> },
+  { label: "living room", content: <img src={livingRoom} alt='living room' /> },
+  { label: "kitchen", content: <img src={kitchen} alt='kitchen' /> },
+  {
+    label: "reading room",
+    content: <img src={readingRoom} alt='reading room' />,
+  },
+  { label: "tv room", content: <img src={tvRoom} alt='tv room' /> },
+];
+
 export default function LandingPage({ ...props }) {
   return (
     <StyledEuiPage>
       <EuiPageBody component='section'>
-        <EuiFlexGroup>
-          <EuiFlexItem grow={2}>
+        <EuiFlexGroup direction='rowReverse'>
+          <EuiFlexItem>
+            <Carousel items={carouselItems} />
+          </EuiFlexItem>
+
+          <EuiFlexItem>
             <StyledEuiPageContent
               horizontalPosition='center'
               verticalPosition='center'>

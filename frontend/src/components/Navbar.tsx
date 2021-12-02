@@ -17,8 +17,8 @@ const LogoSection = styled(EuiHeaderLink)`
 `;
 
 type NavbarComponentProps = React.PropsWithChildren<{
-  user: any;
-  style: any;
+  user?: any;
+  style?: any;
 }>;
 
 export default function Navbar({ user, ...props }: NavbarComponentProps) {

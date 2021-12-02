@@ -42,7 +42,7 @@ export default function Layout({ children }: LayoutComponentProps) {
       </Helmet>
       <ThemeProvider theme={customTheme}>
         <StyledLayout>
-          <Navbar user='' style='' />
+          <Navbar />
           <StyledMain>{children}</StyledMain>
         </StyledLayout>
       </ThemeProvider>
