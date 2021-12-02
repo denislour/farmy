@@ -9,7 +9,7 @@ import {
   EuiHeaderLinks,
   EuiHeaderLink,
 } from "@elastic/eui";
-import loginIcon from "../assets/img/loginIcon.svg";
+import loginIcon from "../assets/img/LoginIcon.svg";
 import styled from "styled-components";
 
 const LogoSection = styled(EuiHeaderLink)`
