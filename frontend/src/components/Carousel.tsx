@@ -38,16 +38,14 @@ const transitionEase = [0.68, -0.55, 0.265, 1.55];
 
 type CarouselComponentProps = React.PropsWithChildren<{
   items: item[];
-  interval?: number;
+  current?: number;
 }>;
 
 export default function Carousel({
   items,
-  interval = 2000,
+  current,
   ...props
 }: CarouselComponentProps) {
-  const { current } = useCarousel(items, interval);
-
   return (
     <CarouselWrapper {...props}>
       <AnimatePresence exitBeforeEnter>

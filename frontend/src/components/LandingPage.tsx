@@ -7,7 +7,8 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
 } from "@elastic/eui";
-import { Carousel } from "../components";
+import { Carousel, CarouselTitle } from "../components";
+import { useCarousel } from "../hooks/useCarousel";
 import heroGirl from "../assets/img/HeroGirl.svg";
 import bedroom from "../assets/img/Bedroom.svg";
 import bathroom from "../assets/img/Bathroom.svg";
@@ -19,6 +20,11 @@ import styled from "styled-components";
 
 const StyledEuiPage = styled(EuiPage)`
   flex: 1;
+`;
+
+const LandingTitle = styled.h1`
+  font-size: 3.5rem;
+  margin: 2rem 0;
 `;
 
 const StyledEuiPageContent = styled(EuiPageContent)`
@@ -46,15 +52,23 @@ const carouselItems = [
   { label: "tv room", content: <img src={tvRoom} alt='tv room' /> },
 ];
 
-export default function LandingPage({ ...props }) {
+export default function LandingPage() {
+  const { current } = useCarousel(carouselItems, 3000);
   return (
     <StyledEuiPage>
       <EuiPageBody component='section'>
+        <EuiFlexGroup direction='column' alignItems='center'>
+          <EuiFlexItem>
+            <LandingTitle>Farmy Cleaners</LandingTitle>
+          </EuiFlexItem>
+          <EuiFlexItem>
+            <CarouselTitle items={carouselItems} current={current} />
+          </EuiFlexItem>
+        </EuiFlexGroup>
         <EuiFlexGroup direction='rowReverse'>
           <EuiFlexItem>
-            <Carousel items={carouselItems} />
+            <Carousel items={carouselItems} current={current} />
           </EuiFlexItem>
-
           <EuiFlexItem>
             <StyledEuiPageContent
               horizontalPosition='center'
