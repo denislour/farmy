@@ -15,4 +15,7 @@
     "editorUnnecessaryCode.border": "#dd7aab",
     "editorUnnecessaryCode.opacity": "#dd7aab",
   },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
 }
