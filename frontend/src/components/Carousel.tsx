@@ -1,7 +1,9 @@
 import React from "react";
 import { EuiPanel } from "@elastic/eui";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCarousel } from "../hooks/useCarousel";
 import styled from "styled-components";
+import item from "../interfaces/items";
 const CarouselWrapper = styled.div`
   flex: 1;
   display: flex;
@@ -35,7 +37,7 @@ const transitionDuration = 0.4;
 const transitionEase = [0.68, -0.55, 0.265, 1.55];
 
 type CarouselComponentProps = React.PropsWithChildren<{
-  items: { label: string; content: JSX.Element }[];
+  items: item[];
   interval?: number;
 }>;
 
@@ -44,13 +46,7 @@ export default function Carousel({
   interval = 2000,
   ...props
 }: CarouselComponentProps) {
-  const [current, setCurrent] = React.useState(0);
-
-  React.useEffect(() => {
-    const next = (current + 1) % items.length;
-    const id = setTimeout(() => setCurrent(next), interval);
-    return () => clearTimeout(id);
-  }, [current, items.length, interval]);
+  const { current } = useCarousel(items, interval);
 
   return (
     <CarouselWrapper {...props}>
