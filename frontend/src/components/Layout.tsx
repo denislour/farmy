@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import { Navbar } from "../components";
 import styled, { ThemeProvider } from "styled-components";
 import euiVars from "@elastic/eui/dist/eui_theme_light.json";
 import "@elastic/eui/dist/eui_theme_light.css";
@@ -24,7 +25,6 @@ const StyledMain = styled.main`
   min-height: calc(100vh - ${(props) => props.theme.euiHeaderHeight} - 1px);
   display: flex;
   flex-direction: column;
-
   & h1 {
     color: ${(props) => props.theme.euiTitleColor};
   }
@@ -42,6 +42,7 @@ export default function Layout({ children }: LayoutComponentProps) {
       </Helmet>
       <ThemeProvider theme={customTheme}>
         <StyledLayout>
+          <Navbar user='' style='' />
           <StyledMain>{children}</StyledMain>
         </StyledLayout>
       </ThemeProvider>
